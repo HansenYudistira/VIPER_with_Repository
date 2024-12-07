@@ -38,15 +38,6 @@
 			);
 			target = A70CC6382D00AEB20003D0F1 /* VIPER_with_Repository */;
 		};
-		A7BC664B2D034F34001D5D86 /* Exceptions for "VIPER_with_Repository" folder in "VIPER_with_RepositoryTests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Infrastructure/NetworkError.swift,
-				Infrastructure/NetworkManager.swift,
-				Infrastructure/ResponseValidator.swift,
-			);
-			target = A70CC64E2D00AEB30003D0F1 /* VIPER_with_RepositoryTests */;
-		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -54,7 +45,6 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				A70CC6612D00AEB30003D0F1 /* Exceptions for "VIPER_with_Repository" folder in "VIPER_with_Repository" target */,
-				A7BC664B2D034F34001D5D86 /* Exceptions for "VIPER_with_Repository" folder in "VIPER_with_RepositoryTests" target */,
 			);
 			path = VIPER_with_Repository;
 			sourceTree = "<group>";
@@ -124,10 +114,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A70CC6622D00AEB30003D0F1 /* Build configuration list for PBXNativeTarget "VIPER_with_Repository" */;
 			buildPhases = (
+				A70CC66D2D020AB90003D0F1 /* SwiftLint */,
 				A70CC6352D00AEB20003D0F1 /* Sources */,
 				A70CC6362D00AEB20003D0F1 /* Frameworks */,
 				A70CC6372D00AEB20003D0F1 /* Resources */,
-				A70CC66D2D020AB90003D0F1 /* SwiftLint */,
 			);
 			buildRules = (
 			);

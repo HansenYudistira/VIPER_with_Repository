@@ -3,6 +3,7 @@ disabled_rules:
   - nesting
   - function_parameter_count
   - static_over_final_class
+  - private_over_fileprivate
 opt_in_rules:
   - control_statement
   - empty_count
