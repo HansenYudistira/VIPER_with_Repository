@@ -1,5 +1,6 @@
 protocol MealListInteractorProtocol {
-    func performSearch(searchKey: String, completion: @escaping (Result<MealListModel, Error>) -> Void)
+    func performSearch(searchKey: String, completion: @escaping (Result<MealListModel, NetworkError>) -> Void)
+    func fetchDetailData(_ name: String, completion: (Result<MealModel, NetworkError>) -> Void)
 }
 
 internal class MealListInteractor {
@@ -11,10 +12,20 @@ internal class MealListInteractor {
         self.apiService = apiService
         self.repository = repository
     }
+
+    internal func fetchDetailData(_ name: String, completion: (Result<MealModel, NetworkError>) -> Void) {
+        if let model = cachedMealList?.meals.first(where: {
+            $0.strMeal == name
+        }) {
+            completion(.success(model))
+        } else {
+            completion(.failure(.noData))
+        }
+    }
 }
 
 extension MealListInteractor: MealListInteractorProtocol {
-    func performSearch(searchKey: String, completion: @escaping (Result<MealListModel, Error>) -> Void) {
+    func performSearch(searchKey: String, completion: @escaping (Result<MealListModel, NetworkError>) -> Void) {
         if let cachedMealList = cachedMealList, cachedMealList.searchKey == searchKey {
             completion(.success(cachedMealList))
             return
@@ -31,12 +42,12 @@ extension MealListInteractor: MealListInteractorProtocol {
                 guard
                     let cachedMealList = self.cachedMealList
                 else {
-                    completion(.failure(NetworkError.invalidResponse))
+                    completion(.failure(.invalidResponse))
                     return
                 }
                 completion(.success(cachedMealList))
-            case.failure(let error):
-                completion(.failure(error))
+            case.failure:
+                completion(.failure(.unknownError))
             }
         }
     }

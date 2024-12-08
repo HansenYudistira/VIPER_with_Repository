@@ -76,6 +76,9 @@ internal class MealListViewController: UIViewController {
 extension MealListViewController: MealListViewProtocol {
     internal func showmeals(meals: [MealViewModel], uniqueArea: [String]) {
         self.uniqueArea = uniqueArea
+        DispatchQueue.main.async {
+            self.mealListView.filterCollection.reloadData()
+        }
         resetFilters()
     }
 
@@ -121,9 +124,7 @@ extension MealListViewController: UISearchBarDelegate {
 extension MealListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == mealListView.mealCollection {
-            print("selected meal list at row \(indexPath.row)")
-        } else if collectionView == mealListView.filterCollection {
-            print("selected filter at row \(indexPath.row)")
+            presenter.navigateToDetail(with: displayedMeals[indexPath.row])
         }
         return
     }

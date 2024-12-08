@@ -1,4 +1,4 @@
-typealias MealListPresenterProtocol = MealListFetchProtocol & MealListFilterProtocol
+typealias MealListPresenterProtocol = MealListFetchProtocol & MealListFilterProtocol & NavigateToDetailProtocol
 
 protocol MealListFetchProtocol {
     func fetchSearchText(_ text: String)
@@ -7,6 +7,10 @@ protocol MealListFetchProtocol {
 protocol MealListFilterProtocol {
     func applyFilters() -> [MealViewModel]
     func toggleFilter(for area: String)
+}
+
+protocol NavigateToDetailProtocol {
+    func navigateToDetail(with meal: MealViewModel)
 }
 
 internal class MealListPresenter {
@@ -31,32 +35,32 @@ extension MealListPresenter: MealListPresenterProtocol {
         else {
             return
         }
-        let mockData = MockData.createMockMealListModel()
-        self.meals = mockData.meals.map { $0.toViewModel() }
-        let area = self.meals.map { $0.area }
-        self.uniqueArea = Array(Set(area))
-        view.showmeals(meals: self.applyFilters(), uniqueArea: self.uniqueArea)
-        return
-//        view.showLoading()
-//
-//        interactor.performSearch(searchKey: text) { [weak self] result in
-//            guard
-//                let self = self,
-//                let view = self.view
-//            else {
-//                return
-//            }
-//            switch result {
-//            case .success(let meals):
-//                self.meals = meals.meals.map { $0.toViewModel() }
-//                let area = self.meals.map { $0.area }
-//                self.uniqueArea = Array(Set(area))
-//                view.showmeals(meals: self.applyFilters(), uniqueArea: self.uniqueArea)
-//            case .failure(let error):
-//                view.showError(error.localizedDescription)
-//            }
-//            view.hideLoading()
-//        }
+//        let mockData = MockData.createMockMealListModel()
+//        self.meals = mockData.meals.map { $0.toViewModel() }
+//        let area = self.meals.map { $0.area }
+//        self.uniqueArea = Array(Set(area))
+//        view.showmeals(meals: self.applyFilters(), uniqueArea: self.uniqueArea)
+//        return
+        view.showLoading()
+
+        interactor.performSearch(searchKey: text) { [weak self] result in
+            guard
+                let self = self,
+                let view = self.view
+            else {
+                return
+            }
+            switch result {
+            case .success(let meals):
+                self.meals = meals.meals.map { $0.toViewModel() }
+                let area = self.meals.map { $0.area }
+                self.uniqueArea = Array(Set(area))
+                view.showmeals(meals: self.applyFilters(), uniqueArea: self.uniqueArea)
+            case .failure(let error):
+                view.showError(error.localizedDescription)
+            }
+            view.hideLoading()
+        }
     }
 
     func applyFilters() -> [MealViewModel] {
@@ -75,6 +79,17 @@ extension MealListPresenter: MealListPresenterProtocol {
             activeFilters.remove(area)
         } else {
             activeFilters.insert(area)
+        }
+    }
+
+    func navigateToDetail(with meal: MealViewModel) {
+        interactor.fetchDetailData(meal.name) { result in
+            switch result {
+            case .success(let meal):
+                router.navigate(to: .mealDetails(meal))
+            case .failure(let error):
+                view?.showError(error.errorDescription ?? "Something went wrong")
+            }
         }
     }
 }
