@@ -40,7 +40,6 @@ internal class AreaLabelView: UIView {
         ])
     }
 
-    // Public method to configure the label text
     internal func configure(text: String, padding: UIEdgeInsets? = nil) {
         label.text = text
 
@@ -54,20 +53,8 @@ internal class AreaLabelView: UIView {
             ])
         }
     }
-//    override func drawText(in rect: CGRect) {
-//        let paddedRect = rect.inset(by: textInsets)
-//        super.drawText(in: paddedRect)
-//    }
-//
-//    override var intrinsicContentSize: CGSize {
-//        let originalSize = super.intrinsicContentSize
-//        let widthWithPadding = originalSize.width + textInsets.left + textInsets.right
-//        let heightWithPadding = originalSize.height + textInsets.top + textInsets.bottom
-//        return CGSize(width: widthWithPadding, height: heightWithPadding)
-//    }
-//
-//    internal func setInsets(top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) {
-//        self.textInsets = UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
-//        self.invalidateIntrinsicContentSize()
-//    }
+
+    internal func toggle() {
+        
+    }
 }

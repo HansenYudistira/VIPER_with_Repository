@@ -37,15 +37,11 @@ internal class MealListViewController: UIViewController {
     }
 
     private func configureNavigationBar() {
-        let title = UILabel()
         navigationItem.title = "Choose Your Menu"
         if let navigationBar = self.navigationController?.navigationBar {
-            navigationBar.prefersLargeTitles = true
             navigationBar.backgroundColor = .white
             navigationBar.isTranslucent = false
-            navigationBar.titleTextAttributes = [
-                .foregroundColor: UIColor.black
-            ]
+            navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
         }
     }
 
