@@ -19,7 +19,9 @@ struct MealListModule: Module {
         let repository = MealListRepository(networkManager: networkManager, dataDecoder: decoder)
         let interactor = MealListInteractor(repository: repository)
         let presenter = MealListPresenter(interactor: interactor, router: router)
-        return MealListViewController(presenter: presenter)
+        let viewController = MealListViewController(presenter: presenter)
+        presenter.view = viewController
+        return viewController
     }
 }
 
