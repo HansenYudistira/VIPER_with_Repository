@@ -27,6 +27,7 @@ internal class MealDescriptionView: UIStackView {
             linkButton.setTitleColor(.black, for: .normal)
             linkButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
             linkButton.contentHorizontalAlignment = .leading
+            linkButton.accessibilityLabel = LocalizedKey.onYoutube.localized
             linkButton.addTarget(self, action: #selector(openYouTube), for: .touchUpInside)
             addArrangedSubview(linkButton)
         }

@@ -14,6 +14,7 @@ internal class LoadingView: UIView {
         backgroundColor = UIColor.black.withAlphaComponent(0.5)
         translatesAutoresizingMaskIntoConstraints = false
         isHidden = true
+        accessibilityLabel = LocalizedKey.loading.localized
 
         let indicator = UIActivityIndicatorView(style: .large)
         indicator.color = .white

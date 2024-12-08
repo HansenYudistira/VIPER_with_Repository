@@ -55,6 +55,24 @@
         }
       }
     },
+    "loading" : {
+      "comment" : "Loading Please Wait",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading Please Wait"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Sedang memuat harap tunggu"
+          }
+        }
+      }
+    },
     "ok" : {
       "comment" : "Okay",
       "extractionState" : "manual",

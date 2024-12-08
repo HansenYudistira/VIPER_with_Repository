@@ -16,6 +16,7 @@ internal class MealSearchBar: UISearchBar {
         isTranslucent = true
         setBackgroundImage(UIImage(), for: .any, barMetrics: .default)
         setSearchFieldBackgroundImage(UIImage(), for: .normal)
+        accessibilityLabel = LocalizedKey.searchHere.localized
 
         searchTextField.backgroundColor = .white
         searchTextField.borderStyle = .roundedRect
