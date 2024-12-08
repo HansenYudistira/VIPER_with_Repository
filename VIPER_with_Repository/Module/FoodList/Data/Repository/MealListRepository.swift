@@ -17,7 +17,8 @@ extension MealListRepository: MealListRepositoryProtocol {
         url: String,
         completion: @escaping (Result<[MealResponseDTO], Error>) -> Void
     ) {
-        networkManager.get(url: url) { result in
+        networkManager.get(url: url) { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success(let data):
                 do {

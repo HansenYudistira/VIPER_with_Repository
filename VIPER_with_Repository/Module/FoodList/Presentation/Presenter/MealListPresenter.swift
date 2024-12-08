@@ -77,12 +77,12 @@ extension MealListPresenter: MealListPresenterProtocol {
     }
 
     internal func navigateToDetail(with meal: MealViewModel) {
-        interactor.fetchDetailData(meal.name) { result in
+        interactor.fetchDetailData(meal.name) { [weak self] result in
             switch result {
             case .success(let meal):
-                router.navigate(to: .mealDetails(meal))
+                self?.router.navigate(to: .mealDetails(meal))
             case .failure(let error):
-                view?.showError(error.errorDescription ?? "Something went wrong")
+                self?.view?.showError(error.errorDescription ?? "Something went wrong")
             }
         }
     }

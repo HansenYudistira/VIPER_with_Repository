@@ -44,15 +44,15 @@ extension MealListInteractor: MealListInteractorProtocol {
         completion(.success(cachedMealList))
 
 //        let url: String = apiService.baseURL + "search.php?s=\(searchKey)"
-//        repository.fetchMeals(url: url) { result in
+//        repository.fetchMeals(url: url) { [weak self] result in
 //            switch result {
 //            case .success(let mealsDTO):
 //                let meals = mealsDTO.map {
 //                    $0.toDomain()
 //                }
-//                self.cachedMealList = MealListModel(meals: meals, searchKey: searchKey)
+//                self?.cachedMealList = MealListModel(meals: meals, searchKey: searchKey)
 //                guard
-//                    let cachedMealList = self.cachedMealList
+//                    let cachedMealList = self?.cachedMealList
 //                else {
 //                    completion(.failure(.invalidResponse))
 //                    return

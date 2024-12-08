@@ -11,6 +11,8 @@ internal struct ResponseValidator: ResponseValidating {
         }
 
         switch httpResponse.statusCode {
+        case 204:
+            throw NetworkError.noData
         case 200...299:
             break
         case 400:
