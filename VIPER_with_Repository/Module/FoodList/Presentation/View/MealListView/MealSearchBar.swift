@@ -23,9 +23,8 @@ internal class MealSearchBar: UISearchBar {
         searchTextField.clipsToBounds = true
 
         translatesAutoresizingMaskIntoConstraints = false
-        placeholder = "Search meals..."
+        placeholder = LocalizedKey.searchHere.localized
         setImage(UIImage(systemName: "text.magnifyingglass"), for: .resultsList, state: .normal)
         setImage(UIImage(systemName: "magnifyingglass"), for: .search, state: .normal)
-
     }
 }

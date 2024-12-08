@@ -2,9 +2,11 @@ import UIKit
 
 internal class MealDetailViewController: UIViewController {
     let presenter: MealDetailPresenterProtocol
+    let mealModel: MealModel
 
     init(presenter: MealDetailPresenterProtocol) {
         self.presenter = presenter
+        self.mealModel = presenter.fetchDetailData()
         super.init(nibName: nil, bundle: nil)
         setupView()
     }
@@ -14,8 +16,23 @@ internal class MealDetailViewController: UIViewController {
     }
 
     private func setupView() {
-        view.backgroundColor = .blue
-        let model = presenter.fetchDetailData()
-        print("model: \(model)")
+        navigationItem.title = mealModel.strMeal
+        navigationItem.backBarButtonItem = UIBarButtonItem(
+            title: LocalizedKey.back.localized,
+            style: .plain,
+            target: nil,
+            action: nil
+        )
+        view.backgroundColor = .white
+
+        let mealDetailView = MealDetailView(meal: mealModel)
+        view.addSubview(mealDetailView)
+
+        NSLayoutConstraint.activate([
+            mealDetailView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            mealDetailView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            mealDetailView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            mealDetailView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+        ])
     }
 }

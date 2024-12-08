@@ -83,8 +83,8 @@ extension MealListViewController: MealListViewProtocol {
     }
 
     internal func showError(_ error: String) {
-        let alert = UIAlertController(title: "Error!", message: error, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        let alert = UIAlertController(title: LocalizedKey.error.localized, message: error, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: LocalizedKey.ok.localized, style: .default))
         DispatchQueue.main.async {
             self.present(alert, animated: true)
         }

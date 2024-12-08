@@ -37,6 +37,15 @@ final class MockRepository: MealListRepositoryProtocol {
     }
 }
 
+final class MockRepositoryFail: MealListRepositoryProtocol {
+    func fetchMeals(
+        url: String,
+        completion: @escaping (Result<[MealResponseDTO], any Error>) -> Void
+    ) {
+        completion(.failure(NetworkError.unknownError))
+    }
+}
+
 final class MealListInteractorTests: XCTestCase {
     func testSearchIsSuccess() {
         let expectation = self.expectation(description: "success fetch data from repository")
@@ -48,6 +57,43 @@ final class MealListInteractorTests: XCTestCase {
                 XCTAssertEqual(mealsList.meals.count, 1)
                 XCTAssertEqual(mealsList.meals[0].idMeal, "52795")
                 XCTAssertEqual(mealsList.meals[0].strMeal, "Chicken Handi")
+            case .failure(let error):
+                XCTFail("Unexpected error: \(error)")
+            }
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 5.0)
+    }
+
+    func testSearchIsFail() {
+        let expectation = self.expectation(description: "fail fetch data from repository")
+        let repositoryFail = MockRepositoryFail()
+        let interactor = MealListInteractor(repository: repositoryFail)
+        interactor.performSearch(searchKey: "chicken") { result in
+            switch result {
+            case .success:
+                XCTFail("Unexpected success")
+            case .failure(let error):
+                XCTAssertEqual(error, NetworkError.unknownError)
+            }
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 1.0)
+    }
+
+    func testFetchDetailData() {
+        let expectation = self.expectation(description: "success fetch detailed data from cache")
+        let repository = MockRepository()
+        let interactor = MealListInteractor(repository: repository)
+        interactor.performSearch(searchKey: "Chicken") { _ in }
+
+        interactor.fetchDetailData("Chicken Handi") { result in
+            switch result {
+            case .success(let meal):
+                XCTAssertEqual(meal.idMeal, "52795")
+                XCTAssertEqual(meal.strMeal, "Chicken Handi")
             case .failure(let error):
                 XCTFail("Unexpected error: \(error)")
             }

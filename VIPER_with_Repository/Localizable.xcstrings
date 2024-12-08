@@ -1,6 +1,24 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "back" : {
+      "comment" : "Back.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Back"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Kembali"
+          }
+        }
+      }
+    },
     "chooseYourMenu" : {
       "comment" : "Title for the menu screen",
       "extractionState" : "manual",
@@ -15,6 +33,78 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pilih Menu Kamu"
+          }
+        }
+      }
+    },
+    "error" : {
+      "comment" : "Something Wrong",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kesalahan"
+          }
+        }
+      }
+    },
+    "ok" : {
+      "comment" : "Okay",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oke"
+          }
+        }
+      }
+    },
+    "onYoutube" : {
+      "comment" : "Available on Youtube",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Available on the Youtube"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tersedia di Youtube"
+          }
+        }
+      }
+    },
+    "searchHere" : {
+      "comment" : "Placeholder text in a search bar prompting users to search for a meal.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search meal"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cari makanan"
           }
         }
       }
