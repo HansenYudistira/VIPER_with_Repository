@@ -2,6 +2,10 @@ protocol MealListPresenterProtocol {
     func fetchSearchText(_ text: String)
 }
 
+protocol MealListFilterProtocol {
+    func applyFilters(activeFilters: Set<String>, meals: [MealViewModel]) -> [MealViewModel]
+}
+
 internal class MealListPresenter {
     let interactor: MealListInteractorProtocol
     let router: Router
@@ -20,32 +24,44 @@ extension MealListPresenter: MealListPresenterProtocol {
         else {
             return
         }
-        let mockData = MockData.createMockMealListModel()
-        let viewModels = mockData.meals.map { $0.toViewModel() }
-        let area = viewModels.map { $0.area }
-        let uniqueArea = Array(Set(area))
-        view.showmeals(meals: viewModels, uniqueArea: uniqueArea)
-        return
-//        view.showLoading()
-//
-//        interactor.performSearch(searchKey: text) { [weak self] result in
-//            guard
-//                let self = self,
-//                let view = self.view
-//            else {
-//                return
-//            }
-//            switch result {
-//            case .success(let meals):
-//                let viewModels = meals.meals.map { $0.toViewModel() }
-//                let area = viewModels.map { $0.area }
-//                let uniqueArea = Array(Set(area))
-//                view.showmeals(meals: viewModels, uniqueArea: uniqueArea)
-//            case .failure(let error):
-//                view.showError(error.localizedDescription)
-//            }
-//            view.hideLoading()
-//        }
+//        let mockData = MockData.createMockMealListModel()
+//        let viewModels = mockData.meals.map { $0.toViewModel() }
+//        let area = viewModels.map { $0.area }
+//        let uniqueArea = Array(Set(area))
+//        view.showmeals(meals: viewModels, uniqueArea: uniqueArea)
+//        return
+        view.showLoading()
+
+        interactor.performSearch(searchKey: text) { [weak self] result in
+            guard
+                let self = self,
+                let view = self.view
+            else {
+                return
+            }
+            switch result {
+            case .success(let meals):
+                let viewModels = meals.meals.map { $0.toViewModel() }
+                let area = viewModels.map { $0.area }
+                let uniqueArea = Array(Set(area))
+                view.showmeals(meals: viewModels, uniqueArea: uniqueArea)
+            case .failure(let error):
+                view.showError(error.localizedDescription)
+            }
+            view.hideLoading()
+        }
+    }
+}
+
+extension MealListPresenter: MealListFilterProtocol {
+    func applyFilters(activeFilters: Set<String>, meals: [MealViewModel]) -> [MealViewModel] {
+        if activeFilters.isEmpty {
+            return meals
+        } else {
+            return meals.filter { meal in
+                activeFilters.contains(meal.area)
+            }
+        }
     }
 }
 

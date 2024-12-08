@@ -13,7 +13,9 @@ internal class MealListViewController: UIViewController {
     private let loadingView: LoadingView
     private let mealListView: MealListView
     private var meals: [MealViewModel] = []
+    private var displayedMeals: [MealViewModel] = []
     private var uniqueArea: [String] = []
+    private var activeFilters: Set<String> = []
 
     init(presenter: MealListPresenterProtocol) {
         mealListView = MealListView()
@@ -37,7 +39,7 @@ internal class MealListViewController: UIViewController {
     }
 
     private func configureNavigationBar() {
-        navigationItem.title = "Choose Your Menu"
+        navigationItem.title = LocalizedKey.chooseYourMenu.localized
         if let navigationBar = self.navigationController?.navigationBar {
             navigationBar.backgroundColor = .white
             navigationBar.isTranslucent = false
@@ -77,9 +79,9 @@ extension MealListViewController: MealListViewProtocol {
     internal func showmeals(meals: [MealViewModel], uniqueArea: [String]) {
         self.meals = meals
         self.uniqueArea = uniqueArea
+        resetFilters()
         DispatchQueue.main.async {
             self.mealListView.filterCollection.reloadData()
-            self.mealListView.mealCollection.reloadData()
         }
     }
 
@@ -105,12 +107,21 @@ extension MealListViewController: MealListViewProtocol {
 }
 
 extension MealListViewController: UISearchBarDelegate {
-    internal func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        resetFilters()
         presenter.fetchSearchText(searchBar.text ?? "")
     }
 
-    internal func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        presenter.fetchSearchText(searchBar.text ?? "")
+    private func resetFilters() {
+        activeFilters.removeAll()
+        DispatchQueue.main.async {
+            self.mealListView.filterCollection.visibleCells.forEach { cell in
+                if let filterCell = cell as? FilterCollectionViewCell {
+                    filterCell.resetState()
+                }
+            }
+        }
+        applyFilters()
     }
 }
 
@@ -128,7 +139,7 @@ extension MealListViewController: UICollectionViewDelegate {
 extension MealListViewController: UICollectionViewDataSource {
     internal func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == mealListView.mealCollection {
-            return meals.count
+            return displayedMeals.count
         } else if collectionView == mealListView.filterCollection {
             return uniqueArea.count
         }
@@ -147,7 +158,7 @@ extension MealListViewController: UICollectionViewDataSource {
             else {
                 return UICollectionViewCell()
             }
-            cell.configure(with: meals[indexPath.item])
+            cell.configure(with: displayedMeals[indexPath.item])
             return cell
         } else if collectionView == mealListView.filterCollection {
             guard let cell = collectionView.dequeueReusableCell(
@@ -158,8 +169,37 @@ extension MealListViewController: UICollectionViewDataSource {
                 return UICollectionViewCell()
             }
             cell.configure(with: uniqueArea[indexPath.item])
+            cell.delegate = self
             return cell
         }
         return UICollectionViewCell()
+    }
+}
+
+extension MealListViewController: ButtonTappedDelegate {
+    func toggle(_ sender: UIButton) {
+        guard
+            let areaButton = sender as? AreaLabelButton,
+            let area = sender.accessibilityLabel
+        else {
+            return
+        }
+        if areaButton.buttonState == .off {
+            activeFilters.remove(area)
+        } else {
+            activeFilters.insert(area)
+        }
+
+        sender.isSelected.toggle()
+
+        applyFilters()
+    }
+
+    private func applyFilters() {
+        displayedMeals = presenter.applyFilters(activeFilters: activeFilters, meals: meals)
+
+        DispatchQueue.main.async {
+            self.mealListView.mealCollection.reloadData()
+        }
     }
 }

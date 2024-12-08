@@ -24,6 +24,7 @@ internal class MealListView: UIStackView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
+        configureFilterLayout()
         configureMealLayout(columns: 2)
     }
 
@@ -43,8 +44,6 @@ internal class MealListView: UIStackView {
             filterCollection.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.05),
             mealCollection.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.8)
         ])
-
-        configureFilterLayout()
     }
 
     private func configureFilterLayout() {

@@ -4,12 +4,12 @@ import Kingfisher
 internal class MealCollectionViewCell: UICollectionViewCell {
     private var mealImageView: MealImageView
     private var mealLabel: MealLabel
-    private var areaLabel: AreaLabelView
+    private var areaLabel: AreaLabelButton
 
     override init(frame: CGRect = .zero) {
         self.mealImageView = MealImageView()
         self.mealLabel = MealLabel()
-        self.areaLabel = AreaLabelView()
+        self.areaLabel = AreaLabelButton()
         super.init(frame: frame)
         setupView()
     }
@@ -48,11 +48,18 @@ internal class MealCollectionViewCell: UICollectionViewCell {
         ])
     }
 
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        let view = super.hitTest(point, with: event)
+        if view === areaLabel {
+            return contentView
+        }
+        return view
+    }
+
     internal func configure(with meal: MealViewModel) {
         self.mealImageView.accessibilityLabel = meal.name
-        self.mealImageView.accessibilityValue = meal.imageURL
         self.mealLabel.text = meal.name
-        self.areaLabel.label.text = meal.area
+        self.areaLabel.configure(text: meal.area)
 
         if let url = URL(string: meal.imageURL) {
             self.mealImageView.kf.setImage(

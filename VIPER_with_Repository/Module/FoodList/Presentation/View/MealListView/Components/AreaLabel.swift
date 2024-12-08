@@ -1,60 +1,89 @@
 import UIKit
 
-internal class AreaLabelView: UIView {
-    internal var label: UILabel
-    private var padding: UIEdgeInsets = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
+enum ButtonState {
+    case on
+    case off
+}
+
+protocol ButtonTappedDelegate: AnyObject {
+    func toggle(_ sender: UIButton)
+}
+
+internal class AreaLabelButton: UIButton {
+    private var customPadding: NSDirectionalEdgeInsets = NSDirectionalEdgeInsets(
+        top: 4,
+        leading: 8,
+        bottom: 4,
+        trailing: 8
+    )
+
+    internal var buttonState: ButtonState = .off
 
     override init(frame: CGRect = .zero) {
-        label = UILabel()
         super.init(frame: frame)
-        setupLabel()
-        setupView()
+        setupButton()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func setupLabel() {
-        label.textColor = .black
-        label.font = .systemFont(ofSize: 12)
-        label.adjustsFontForContentSizeCategory = true
-        label.textAlignment = .center
-        label.clipsToBounds = true
-        label.translatesAutoresizingMaskIntoConstraints = false
-    }
-
-    private func setupView() {
-        backgroundColor = .systemGray2
+    private func setupButton() {
         layer.cornerRadius = 8
         layer.masksToBounds = true
+        titleLabel?.font = .systemFont(ofSize: 12)
+        titleLabel?.adjustsFontForContentSizeCategory = true
+        titleLabel?.adjustsFontSizeToFitWidth = true
+        titleLabel?.minimumScaleFactor = 0.7
+        titleLabel?.numberOfLines = 1
+        titleLabel?.textAlignment = .center
+
+        setTitleColor(.black, for: .normal)
+        setTitleColor(.white, for: .selected)
         translatesAutoresizingMaskIntoConstraints = false
-
-        addSubview(label)
-
-        NSLayoutConstraint.activate([
-            label.topAnchor.constraint(equalTo: topAnchor, constant: padding.top),
-            label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -padding.bottom),
-            label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding.left),
-            label.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding.right)
-        ])
+        updateAppearance()
     }
 
-    internal func configure(text: String, padding: UIEdgeInsets? = nil) {
-        label.text = text
+    internal func configure(text: String, configuration: ((inout NSDirectionalEdgeInsets) -> Void)? = nil) {
+        setTitle(text, for: .normal)
+        accessibilityLabel = text
 
-        if let newPadding = padding {
-            self.padding = newPadding
-            NSLayoutConstraint.activate([
-                label.topAnchor.constraint(equalTo: topAnchor, constant: self.padding.top),
-                label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -self.padding.bottom),
-                label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: self.padding.left),
-                label.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -self.padding.right)
-            ])
+        if let config = configuration {
+            var newPadding = customPadding
+            config(&newPadding)
+            customPadding = newPadding
         }
+
+        var buttonConfig = UIButton.Configuration.plain()
+        buttonConfig.contentInsets = customPadding
+        self.configuration = buttonConfig
     }
 
     internal func toggle() {
-        
+        buttonState = (buttonState == .on) ? .off : .on
+        updateAppearance()
+    }
+
+    private func updateAppearance() {
+        switch buttonState {
+        case .on:
+            backgroundColor = .systemBlue
+        case .off:
+            backgroundColor = .systemGray2
+        }
+    }
+
+    override var intrinsicContentSize: CGSize {
+        let superSize = super.intrinsicContentSize
+        return CGSize(
+            width: superSize.width + customPadding.leading + customPadding.trailing + 4,
+            height: superSize.height
+        )
+    }
+
+    internal func resetState() {
+        buttonState = .off
+        isSelected = false
+        updateAppearance()
     }
 }
