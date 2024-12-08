@@ -1,6 +1,8 @@
 import Foundation
 
 enum NetworkError: Error, Equatable {
+    case noData
+    case noResponse
     case invalidResponse
     case invalidURL
     case invalidParameters
@@ -10,6 +12,10 @@ enum NetworkError: Error, Equatable {
 
     var errorDescription: String? {
         switch self {
+        case .noData:
+            return "No data"
+        case .noResponse:
+            return "No response"
         case .invalidResponse:
             return "Invalid response"
         case .invalidURL:

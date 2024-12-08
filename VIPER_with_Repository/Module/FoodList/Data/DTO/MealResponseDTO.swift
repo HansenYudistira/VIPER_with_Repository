@@ -38,8 +38,8 @@ internal struct MealResponseDTO: Decodable {
 }
 
 internal extension MealResponseDTO {
-    func toDomain() -> MealListModel {
-        return MealListModel(
+    func toDomain() -> MealModel {
+        return MealModel(
             idMeal: idMeal ?? "",
             strMeal: strMeal ?? "",
             strArea: strArea ?? "",

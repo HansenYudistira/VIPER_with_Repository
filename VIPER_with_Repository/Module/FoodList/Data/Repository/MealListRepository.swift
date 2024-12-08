@@ -1,8 +1,8 @@
 protocol MealListRepositoryProtocol {
-    func fetchMeals(url: String, completion: @escaping (Result<[MealResponseDTO], Error>) -> Void) async throws
+    func fetchMeals(url: String, completion: @escaping (Result<[MealResponseDTO], Error>) -> Void)
 }
 
-internal class MealListRepository: MealListRepositoryProtocol {
+internal class MealListRepository {
     private let networkManager: APIClient
     private let dataDecoder: DataDecoderProtocol
 
@@ -10,17 +10,28 @@ internal class MealListRepository: MealListRepositoryProtocol {
         self.networkManager = networkManager
         self.dataDecoder = dataDecoder
     }
+}
 
+extension MealListRepository: MealListRepositoryProtocol {
     internal func fetchMeals(
         url: String,
         completion: @escaping (Result<[MealResponseDTO], Error>) -> Void
-    ) async throws {
-        do {
-            let data = try await networkManager.get(url: url)
-            let mealListReponse: MealListResponseDTO = try dataDecoder.decode(MealListResponseDTO.self, from: data)
-            completion(.success(mealListReponse.meals))
-        } catch {
-            completion(.failure(error))
+    ) {
+        networkManager.get(url: url) { result in
+            switch result {
+            case .success(let data):
+                do {
+                    let mealListReponse: MealListResponseDTO = try self.dataDecoder.decode(
+                        MealListResponseDTO.self,
+                        from: data
+                    )
+                    completion(.success(mealListReponse.meals))
+                } catch {
+                    completion(.failure(error))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
         }
     }
 }

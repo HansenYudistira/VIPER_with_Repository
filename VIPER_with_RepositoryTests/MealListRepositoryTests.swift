@@ -2,75 +2,63 @@ import XCTest
 @testable import VIPER_with_Repository
 
 final class MockNetworkManager: APIClient {
-    func get(url: String) async throws -> Data {
+    func get(url: String, completion: @escaping (Result<Data, any Error>) -> Void) {
         guard let data = mockData.data(using: .utf8) else {
-            throw NetworkError.invalidResponse
+            completion(.failure(NetworkError.invalidResponse))
+            return
         }
-        return data
+        completion(.success(data))
     }
 }
 
 final class MockNetworkManagerFailure: APIClient {
-    func get(url: String) async throws -> Data {
-        throw NetworkError.invalidResponse
+    func get(url: String, completion: @escaping (Result<Data, any Error>) -> Void) {
+        completion(.failure(NetworkError.invalidResponse))
     }
 }
 
 final class MealListRepositoryTests: XCTestCase {
     let dataDecoder = DataDecoder()
-    lazy var repository: MealListRepository = MealListRepository(
-        networkManager: MockNetworkManager(),
-        dataDecoder: dataDecoder
-    )
 
     func testGetMealsIsSuccess() {
         let expectation = self.expectation(description: "Get meals")
+        let repository = MealListRepository(
+            networkManager: MockNetworkManager(),
+            dataDecoder: dataDecoder
+        )
 
-        Task {
-            do {
-                try await repository.fetchMeals(url: "mockURL") { result in
-                    switch result {
-                    case .success(let meals):
-                        XCTAssertEqual(meals.count, 1)
-                        XCTAssertEqual(meals.first?.idMeal, "52795")
-                        XCTAssertEqual(meals.first?.strMeal, "Chicken Handi")
-                    case .failure(let error):
-                        XCTFail("Expected success, but got failure instead \(error)")
-                    }
-                    expectation.fulfill()
-                }
-            } catch {
-                XCTFail("unexpected error: \(error)")
-                expectation.fulfill()
+        repository.fetchMeals(url: "mockURL") { result in
+            switch result {
+            case .success(let meals):
+                XCTAssertEqual(meals.count, 1, "Expected exactly one meal")
+                XCTAssertEqual(meals.first?.idMeal, "52795", "Unexpected meal ID")
+                XCTAssertEqual(meals.first?.strMeal, "Chicken Handi", "Unexpected meal name")
+            case .failure(let error):
+                XCTFail("Expected success, but got failure: \(error)")
             }
+            expectation.fulfill()
         }
 
         waitForExpectations(timeout: 5.0)
     }
 
-    func testGetMealsIsFailure() throws {
+    func testGetMealsIsFailure() {
         let expectation = self.expectation(description: "Get meals")
-        let repository: MealListRepository = MealListRepository(
+        let repository = MealListRepository(
             networkManager: MockNetworkManagerFailure(),
             dataDecoder: dataDecoder
         )
 
-        Task {
-            do {
-                try await repository.fetchMeals(url: "mockURL") { result in
-                    switch result {
-                    case .success:
-                        XCTFail("Expected failure")
-                    case .failure:
-                        break
-                    }
-                    expectation.fulfill()
-                }
-            } catch {
-                XCTFail("Unexpected error: \(error)")
-                expectation.fulfill()
+        repository.fetchMeals(url: "mockURL") { result in
+            switch result {
+            case .success:
+                XCTFail("Expected failure, but got success instead")
+            case .failure(let error):
+                XCTAssertEqual(error as? NetworkError, NetworkError.invalidResponse, "Unexpected error type")
             }
+            expectation.fulfill()
         }
+
         waitForExpectations(timeout: 5.0)
     }
 }

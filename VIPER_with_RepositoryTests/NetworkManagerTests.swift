@@ -1,7 +1,6 @@
 import XCTest
 @testable import VIPER_with_Repository
 import Foundation
-import os
 
 final class MockResponseValidator: ResponseValidating {
     var shouldThrowError = false
@@ -39,9 +38,9 @@ final class URLProtocolStub: URLProtocol {
     }
 
     override func stopLoading() {}
-
 }
 
+@available(iOS, deprecated: 13.0)
 final class NetworkManagerTests: XCTestCase {
     func makeSUT(
         mockSession: MockURLSession = MockURLSession(),
@@ -50,7 +49,7 @@ final class NetworkManagerTests: XCTestCase {
         return NetworkManager(urlSession: mockSession, responseValidator: mockValidator)
     }
 
-    func testGetDataSuccess() async throws {
+    func testGetDataSuccess() {
         let mockSession = MockURLSession()
         let jsonString = #"""
         {
@@ -71,21 +70,32 @@ final class NetworkManagerTests: XCTestCase {
         let mockResponseValidator = MockResponseValidator()
         let sut = makeSUT(mockSession: mockSession, mockValidator: mockResponseValidator)
 
-        do {
-            let data = try await sut.get(url: "https://mockurl.com")
-            XCTAssertNotNil(data, "Expected valid data but got nil")
-            let json = try JSONSerialization.jsonObject(with: data, options: [])
-            guard let dict = json as? [String: Any], let meals = dict["meals"] as? [[String: Any]] else {
-                XCTFail("Expected JSON response with meals array")
-                return
+        let expectation = self.expectation(description: "Completion handler called")
+
+        sut.get(url: "https://mockurl.com") { result in
+            switch result {
+            case .success(let data):
+                XCTAssertNotNil(data, "Expected valid data but got nil")
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: [])
+                    guard let dict = json as? [String: Any], let meals = dict["meals"] as? [[String: Any]] else {
+                        XCTFail("Expected JSON response with meals array")
+                        return
+                    }
+                    XCTAssertEqual(meals.first?["strMeal"] as? String, "Test Meal", "Unexpected meal name")
+                } catch {
+                    XCTFail("JSON parsing error: \(error)")
+                }
+            case .failure(let error):
+                XCTFail("Unexpected error: \(error)")
             }
-            XCTAssertEqual(meals.first?["strMeal"] as? String, "Test Meal", "Unexpected meal name")
-        } catch {
-            XCTFail("Unexpected error: \(error)")
+            expectation.fulfill()
         }
+
+        wait(for: [expectation], timeout: 2.0)
     }
 
-    func testGetDataFailure() async {
+    func testGetDataFailure() {
         let mockSession = MockURLSession()
         mockSession.mockData = Data()
         mockSession.mockResponse = HTTPURLResponse(
@@ -101,29 +111,54 @@ final class NetworkManagerTests: XCTestCase {
 
         let sut = makeSUT(mockSession: mockSession, mockValidator: mockValidator)
 
-        do {
-            _ = try await sut.get(url: "mockUrl")
-            XCTFail("Expected an error to be thrown, but the call succeeded")
-        } catch let error as NetworkError {
-            XCTAssertEqual(error, NetworkError.invalidURL, "Expected invalidURL error")
-        } catch {
-            XCTFail("Unexpected error type: \(error)")
+        let expectation = self.expectation(description: "Completion handler called")
+
+        sut.get(url: "mockUrl") { result in
+            switch result {
+            case .success:
+                XCTFail("Expected an error to be thrown, but the call succeeded")
+            case .failure(let error as NetworkError):
+                XCTAssertEqual(error, NetworkError.invalidResponse, "Expected invalidResponse error")
+            case .failure(let error):
+                XCTFail("Unexpected error type: \(error)")
+            }
+            expectation.fulfill()
         }
+
+        wait(for: [expectation], timeout: 2.0)
     }
 }
 
+@available(iOS, deprecated: 13.0)
 class MockURLSession: URLSessionProtocol {
     var mockData: Data?
     var mockResponse: URLResponse?
     var mockError: Error?
 
-    func data(from url: URL) async throws -> (Data, URLResponse) {
-        if let error = mockError {
-            throw error
+    func dataTask(
+        with url: URL,
+        completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void
+    ) -> URLSessionDataTask {
+        let task = MockURLSessionDataTask {
+            if let error = self.mockError {
+                completionHandler(nil, nil, error)
+            } else {
+                completionHandler(self.mockData, self.mockResponse, nil)
+            }
         }
-        guard let data = mockData, let response = mockResponse else {
-            throw NetworkError.invalidResponse
-        }
-        return (data, response)
+        return task
+    }
+}
+
+class MockURLSessionDataTask: URLSessionDataTask, @unchecked Sendable {
+    private let closure: () -> Void
+
+    @available(iOS, deprecated: 13.0)
+    init(closure: @escaping () -> Void) {
+        self.closure = closure
+    }
+
+    override func resume() {
+        closure()
     }
 }

@@ -1,16 +1,19 @@
 import Foundation
 
 protocol URLSessionProtocol {
-    func data(from url: URL) async throws -> (Data, URLResponse)
+    func dataTask(
+        with url: URL,
+        completionHandler: @escaping @Sendable (Data?, URLResponse?, Error?) -> Void
+    ) -> URLSessionDataTask
 }
 
 extension URLSession: URLSessionProtocol {}
 
 protocol APIClient {
-    func get(url: String) async throws -> Data
+    func get(url: String, completion: @escaping (Result<Data, Error>) -> Void)
 }
 
-internal class NetworkManager: APIClient {
+internal class NetworkManager {
     private let urlSession: URLSessionProtocol
     private let responseValidator: ResponseValidating
 
@@ -18,13 +21,39 @@ internal class NetworkManager: APIClient {
         self.urlSession = urlSession
         self.responseValidator = responseValidator
     }
+}
 
-    internal func get(url: String) async throws -> Data {
+extension NetworkManager: APIClient {
+    internal func get(
+        url: String,
+        completion: @escaping (Result<Data, Error>) -> Void
+    ) {
         guard let url = URL(string: url) else {
-            throw NetworkError.invalidURL
+            completion(.failure(NetworkError.invalidURL))
+            return
         }
-        let (data, response) = try await URLSession.shared.data(from: url)
-        try responseValidator.validate(response)
-        return data
+
+        urlSession.dataTask(with: url) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+
+            guard let response = response else {
+                completion(.failure(NetworkError.noResponse))
+                return
+            }
+
+            do {
+                try self.responseValidator.validate(response)
+                guard let data = data else {
+                    completion(.failure(NetworkError.noData))
+                    return
+                }
+                completion(.success(data))
+            } catch {
+                completion(.failure(error))
+            }
+        }.resume()
     }
 }
