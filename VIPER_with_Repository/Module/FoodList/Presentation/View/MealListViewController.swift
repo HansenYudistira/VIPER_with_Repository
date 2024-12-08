@@ -29,12 +29,24 @@ internal class MealListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemGray6
-        navigationItem.title = "Choose Your Menu"
-
+        configureNavigationBar()
         configureMealList()
         configureLoadingView()
 
         presenter.fetchSearchText("")
+    }
+
+    private func configureNavigationBar() {
+        let title = UILabel()
+        navigationItem.title = "Choose Your Menu"
+        if let navigationBar = self.navigationController?.navigationBar {
+            navigationBar.prefersLargeTitles = true
+            navigationBar.backgroundColor = .white
+            navigationBar.isTranslucent = false
+            navigationBar.titleTextAttributes = [
+                .foregroundColor: UIColor.black
+            ]
+        }
     }
 
     private func configureMealList() {
@@ -109,7 +121,7 @@ extension MealListViewController: UISearchBarDelegate {
 extension MealListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == mealListView.mealCollection {
-            print("selecteed meal list at row \(indexPath.row)")
+            print("selected meal list at row \(indexPath.row)")
         } else if collectionView == mealListView.filterCollection {
             print("selected filter at row \(indexPath.row)")
         }

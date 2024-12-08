@@ -32,7 +32,6 @@ internal class MealListView: UIStackView {
         translatesAutoresizingMaskIntoConstraints = false
         axis = .vertical
         spacing = 8
-        searchBar.backgroundColor = .clear
         filterCollection.backgroundColor = .clear
         mealCollection.backgroundColor = .clear
         addArrangedSubview(searchBar)

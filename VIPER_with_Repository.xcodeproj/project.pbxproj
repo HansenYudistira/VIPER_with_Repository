@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		A740998C2D05A2A200DE57BF /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = A740998B2D05A2A200DE57BF /* Kingfisher */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		A70CC6502D00AEB30003D0F1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -66,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A740998C2D05A2A200DE57BF /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,6 +98,7 @@
 				A70CC63B2D00AEB20003D0F1 /* VIPER_with_Repository */,
 				A70CC6522D00AEB30003D0F1 /* VIPER_with_RepositoryTests */,
 				A70CC65C2D00AEB30003D0F1 /* VIPER_with_RepositoryUITests */,
+				A740998A2D05A2A200DE57BF /* Frameworks */,
 				A70CC63A2D00AEB20003D0F1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -105,6 +111,13 @@
 				A70CC6592D00AEB30003D0F1 /* VIPER_with_RepositoryUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		A740998A2D05A2A200DE57BF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -604,6 +617,14 @@
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A740998B2D05A2A200DE57BF /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A77CD0162D05A01D000A3D44 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A70CC6312D00AEB20003D0F1 /* Project object */;
 }
