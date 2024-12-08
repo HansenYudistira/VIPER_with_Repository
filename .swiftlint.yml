@@ -10,9 +10,16 @@ opt_in_rules:
   - trailing_newline
   - colon
   - comma
-  
+
+included:
+  - VIPER_with_Repository/
+  - VIPER_with_RepositoryTests/
 excluded:
   - VIPER_with_RepositoryUITests/
+  - Pods/
+  - Products/
+  - Frameworks/
+  - Carthage/
 
 force_cast: warning
 

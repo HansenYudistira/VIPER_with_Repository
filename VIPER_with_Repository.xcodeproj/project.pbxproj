@@ -127,8 +127,6 @@
 				A70CC63B2D00AEB20003D0F1 /* VIPER_with_Repository */,
 			);
 			name = VIPER_with_Repository;
-			packageProductDependencies = (
-			);
 			productName = VIPER_with_Repository;
 			productReference = A70CC6392D00AEB20003D0F1 /* VIPER_with_Repository.app */;
 			productType = "com.apple.product-type.application";
@@ -150,8 +148,6 @@
 				A70CC6522D00AEB30003D0F1 /* VIPER_with_RepositoryTests */,
 			);
 			name = VIPER_with_RepositoryTests;
-			packageProductDependencies = (
-			);
 			productName = VIPER_with_RepositoryTests;
 			productReference = A70CC64F2D00AEB30003D0F1 /* VIPER_with_RepositoryTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -173,8 +169,6 @@
 				A70CC65C2D00AEB30003D0F1 /* VIPER_with_RepositoryUITests */,
 			);
 			name = VIPER_with_RepositoryUITests;
-			packageProductDependencies = (
-			);
 			productName = VIPER_with_RepositoryUITests;
 			productReference = A70CC6592D00AEB30003D0F1 /* VIPER_with_RepositoryUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -211,6 +205,9 @@
 			);
 			mainGroup = A70CC6302D00AEB20003D0F1;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				A77CD0162D05A01D000A3D44 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A70CC63A2D00AEB20003D0F1 /* Products */;
 			projectDirPath = "";
@@ -596,6 +593,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A77CD0162D05A01D000A3D44 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.1.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
 	};
 	rootObject = A70CC6312D00AEB20003D0F1 /* Project object */;
 }
