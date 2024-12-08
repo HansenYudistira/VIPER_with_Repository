@@ -1,4 +1,6 @@
-protocol MealListPresenterProtocol {
+typealias MealListPresenterProtocol = MealListFetchProtocol & MealListFilterProtocol
+
+protocol MealListFetchProtocol {
     func fetchSearchText(_ text: String)
 }
 
@@ -51,9 +53,7 @@ extension MealListPresenter: MealListPresenterProtocol {
             view.hideLoading()
         }
     }
-}
 
-extension MealListPresenter: MealListFilterProtocol {
     func applyFilters(activeFilters: Set<String>, meals: [MealViewModel]) -> [MealViewModel] {
         if activeFilters.isEmpty {
             return meals

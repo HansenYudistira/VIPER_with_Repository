@@ -129,8 +129,6 @@ extension MealListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == mealListView.mealCollection {
             print("selected meal list at row \(indexPath.row)")
-        } else if collectionView == mealListView.filterCollection {
-            print("selected filter at row \(indexPath.row)")
         }
         return
     }
