@@ -7,7 +7,7 @@ protocol Module {
 }
 
 internal class ModuleAssembler {
-    func assemble<T: Module>(
+    internal func assemble<T: Module>(
         module: T,
         router: Router,
         parameters: T.Parameters
@@ -16,8 +16,8 @@ internal class ModuleAssembler {
     }
 }
 
-struct MealListModule: Module {
-    func assemble(router: Router, parameters: String = "") -> MealListViewController {
+internal struct MealListModule: Module {
+    internal func assemble(router: Router, parameters: String = "") -> MealListViewController {
         let decoder = DataDecoder()
         let responseValidator = ResponseValidator()
         let networkManager = NetworkManager(responseValidator: responseValidator)
@@ -30,8 +30,8 @@ struct MealListModule: Module {
     }
 }
 
-struct MealDetailModule: Module {
-    func assemble(router: Router, parameters: MealModel) -> MealDetailViewController {
+internal struct MealDetailModule: Module {
+    internal func assemble(router: Router, parameters: MealModel) -> MealDetailViewController {
         let presenter = MealDetailPresenter(mealModel: parameters)
         return MealDetailViewController(presenter: presenter)
     }

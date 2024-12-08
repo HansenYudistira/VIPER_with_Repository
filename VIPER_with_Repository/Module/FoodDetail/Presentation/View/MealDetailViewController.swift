@@ -1,8 +1,8 @@
 import UIKit
 
 internal class MealDetailViewController: UIViewController {
-    let presenter: MealDetailPresenterProtocol
-    let mealModel: MealModel
+    private let presenter: MealDetailPresenterProtocol
+    private let mealModel: MealModel
 
     init(presenter: MealDetailPresenterProtocol) {
         self.presenter = presenter
@@ -25,7 +25,7 @@ internal class MealDetailViewController: UIViewController {
         )
         view.backgroundColor = .white
 
-        let mealDetailView = MealDetailView(meal: mealModel)
+        let mealDetailView: MealDetailView = .init(meal: mealModel)
         view.addSubview(mealDetailView)
 
         NSLayoutConstraint.activate([

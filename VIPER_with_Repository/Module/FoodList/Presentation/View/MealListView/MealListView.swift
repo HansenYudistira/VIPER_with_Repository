@@ -1,12 +1,12 @@
 import UIKit
 
 internal class MealListView: UIStackView {
-    let searchBar: MealSearchBar
-    let filterCollection: CustomCollectionView
-    let mealCollection: CustomCollectionView
+    internal let searchBar: MealSearchBar
+    internal let filterCollection: CustomCollectionView
+    internal let mealCollection: CustomCollectionView
 
-    let mealIdentifier: String = "mealCell"
-    let filterIdentifier: String = "filterCell"
+    internal let mealIdentifier: String = "mealCell"
+    internal let filterIdentifier: String = "filterCell"
 
     override init(frame: CGRect = .zero) {
         searchBar = MealSearchBar()
@@ -22,7 +22,7 @@ internal class MealListView: UIStackView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func layoutSubviews() {
+    override internal func layoutSubviews() {
         super.layoutSubviews()
         configureFilterLayout()
         configureMealLayout(columns: 2)

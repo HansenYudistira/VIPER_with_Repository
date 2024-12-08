@@ -3,7 +3,7 @@ protocol MealDetailPresenterProtocol {
 }
 
 internal class MealDetailPresenter {
-    let mealModel: MealModel
+    private let mealModel: MealModel
 
     init(mealModel: MealModel) {
         self.mealModel = mealModel
@@ -11,7 +11,7 @@ internal class MealDetailPresenter {
 }
 
 extension MealDetailPresenter: MealDetailPresenterProtocol {
-    func fetchDetailData() -> MealModel {
+    internal func fetchDetailData() -> MealModel {
         return mealModel
     }
 }

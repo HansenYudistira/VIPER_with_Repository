@@ -14,9 +14,9 @@ protocol NavigateToDetailProtocol {
 }
 
 internal class MealListPresenter {
-    let interactor: MealListInteractorProtocol
-    let router: Router
-    weak var view: MealListViewProtocol?
+    internal let router: Router
+    weak internal var view: MealListViewProtocol?
+    private let interactor: MealListInteractorProtocol
     private var meals: [MealViewModel] = []
     private var filteredMeals: [MealViewModel] = []
     private var uniqueArea: [String] = []
@@ -29,7 +29,7 @@ internal class MealListPresenter {
 }
 
 extension MealListPresenter: MealListPresenterProtocol {
-    func fetchSearchText(_ text: String) {
+    internal func fetchSearchText(_ text: String) {
         guard
             let view = self.view
         else {
@@ -57,7 +57,7 @@ extension MealListPresenter: MealListPresenterProtocol {
         }
     }
 
-    func applyFilters() -> [MealViewModel] {
+    internal func applyFilters() -> [MealViewModel] {
         if activeFilters.isEmpty {
             filteredMeals = meals
         } else {
@@ -68,7 +68,7 @@ extension MealListPresenter: MealListPresenterProtocol {
         return filteredMeals
     }
 
-    func toggleFilter(for area: String) {
+    internal func toggleFilter(for area: String) {
         if activeFilters.contains(area) {
             activeFilters.remove(area)
         } else {
@@ -76,7 +76,7 @@ extension MealListPresenter: MealListPresenterProtocol {
         }
     }
 
-    func navigateToDetail(with meal: MealViewModel) {
+    internal func navigateToDetail(with meal: MealViewModel) {
         interactor.fetchDetailData(meal.name) { result in
             switch result {
             case .success(let meal):

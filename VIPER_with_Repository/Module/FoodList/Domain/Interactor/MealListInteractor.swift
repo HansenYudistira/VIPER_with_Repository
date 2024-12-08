@@ -25,7 +25,7 @@ internal class MealListInteractor {
 }
 
 extension MealListInteractor: MealListInteractorProtocol {
-    func performSearch(searchKey: String, completion: @escaping (Result<MealListModel, NetworkError>) -> Void) {
+    internal func performSearch(searchKey: String, completion: @escaping (Result<MealListModel, NetworkError>) -> Void) {
         if let cachedMealList = cachedMealList, cachedMealList.searchKey == searchKey {
             completion(.success(cachedMealList))
             return
@@ -40,7 +40,7 @@ extension MealListInteractor: MealListInteractorProtocol {
         }
         completion(.success(cachedMealList))
 
-//        let url = apiService.baseURL + "search.php?s=\(searchKey)"
+//        let url: String = apiService.baseURL + "search.php?s=\(searchKey)"
 //        repository.fetchMeals(url: url) { result in
 //            switch result {
 //            case .success(let mealsDTO):

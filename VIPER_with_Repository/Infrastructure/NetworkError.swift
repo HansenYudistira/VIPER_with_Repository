@@ -10,7 +10,7 @@ enum NetworkError: Error, Equatable {
     case serverError(statusCode: Int)
     case unknownError
 
-    var errorDescription: String? {
+    internal var errorDescription: String? {
         switch self {
         case .noData:
             return "No data"

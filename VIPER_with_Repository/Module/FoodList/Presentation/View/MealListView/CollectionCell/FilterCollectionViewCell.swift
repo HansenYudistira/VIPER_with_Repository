@@ -3,7 +3,7 @@ import UIKit
 internal class FilterCollectionViewCell: UICollectionViewCell {
     private var areaLabel: AreaLabelButton
 
-    weak var delegate: ButtonTappedDelegate?
+    weak internal var delegate: ButtonTappedDelegate?
 
     override init(frame: CGRect = .zero) {
         self.areaLabel = AreaLabelButton(frame: frame)

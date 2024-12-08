@@ -1,16 +1,16 @@
 internal struct MealModel {
-    let idMeal: String
-    let strMeal: String
-    let strArea: String
-    let strInstructions: String
-    let strMealThumb: String
-    let strYoutube: String
-    let strIngredients: [String]
-    let strMeasure: [String]
+    internal let idMeal: String
+    internal let strMeal: String
+    internal let strArea: String
+    internal let strInstructions: String
+    internal let strMealThumb: String
+    internal let strYoutube: String
+    internal let strIngredients: [String]
+    internal let strMeasure: [String]
 }
 
 extension MealModel {
-    func toViewModel() -> MealViewModel {
+    internal func toViewModel() -> MealViewModel {
         return MealViewModel(name: strMeal, area: strArea, imageURL: strMealThumb)
     }
 }

@@ -130,7 +130,7 @@ final class NetworkManagerTests: XCTestCase {
 }
 
 @available(iOS, deprecated: 13.0)
-class MockURLSession: URLSessionProtocol {
+final class MockURLSession: URLSessionProtocol {
     var mockData: Data?
     var mockResponse: URLResponse?
     var mockError: Error?
@@ -150,7 +150,7 @@ class MockURLSession: URLSessionProtocol {
     }
 }
 
-class MockURLSessionDataTask: URLSessionDataTask, @unchecked Sendable {
+final class MockURLSessionDataTask: URLSessionDataTask, @unchecked Sendable {
     private let closure: () -> Void
 
     @available(iOS, deprecated: 13.0)

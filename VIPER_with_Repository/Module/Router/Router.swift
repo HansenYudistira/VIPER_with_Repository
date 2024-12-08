@@ -14,7 +14,7 @@ protocol Router: AnyObject {
 internal class AppRouter: Router {
     internal var navigationController: UINavigationController
     private let window: UIWindow
-    let moduleAssembler: ModuleAssembler
+    private let moduleAssembler: ModuleAssembler
 
     init(
         window: UIWindow,
@@ -32,7 +32,7 @@ internal class AppRouter: Router {
         navigate(to: .mealList)
     }
 
-    func navigate(to destination: Destination) {
+    internal func navigate(to destination: Destination) {
         switch destination {
         case .mealList:
             let mealListModule = MealListModule()

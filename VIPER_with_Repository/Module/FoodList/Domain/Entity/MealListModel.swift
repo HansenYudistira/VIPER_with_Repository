@@ -1,4 +1,4 @@
 internal struct MealListModel {
-    let meals: [MealModel]
-    let searchKey: String
+    internal let meals: [MealModel]
+    internal let searchKey: String
 }

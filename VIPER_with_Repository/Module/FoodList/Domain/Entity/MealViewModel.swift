@@ -1,5 +1,5 @@
-struct MealViewModel {
-    let name: String
-    let area: String
-    let imageURL: String
+internal struct MealViewModel {
+    internal let name: String
+    internal let area: String
+    internal let imageURL: String
 }

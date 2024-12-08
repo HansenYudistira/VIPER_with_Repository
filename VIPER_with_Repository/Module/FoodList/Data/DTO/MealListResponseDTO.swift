@@ -1,3 +1,3 @@
 internal struct MealListResponseDTO: Decodable {
-    let meals: [MealResponseDTO]
+    internal let meals: [MealResponseDTO]
 }

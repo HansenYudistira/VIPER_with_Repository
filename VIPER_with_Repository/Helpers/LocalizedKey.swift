@@ -9,7 +9,7 @@ enum LocalizedKey: String {
     case back
 
     var localized: String {
-        let key = String(describing: self)
+        let key: String = String(describing: self)
         return NSLocalizedString(key, comment: self.comment)
     }
 

@@ -14,7 +14,7 @@ internal class MealDetailView: UIView {
     private func setupView(meal: MealModel) {
         translatesAutoresizingMaskIntoConstraints = false
 
-        let imageView = MealImageView()
+        let imageView: MealImageView = .init()
         imageView.accessibilityLabel = meal.strMeal
         if let url = URL(string: meal.strMealThumb) {
             imageView.kf.setImage(
@@ -25,7 +25,7 @@ internal class MealDetailView: UIView {
         }
         addSubview(imageView)
 
-        let descriptionView = MealDescriptionView(meal: meal)
+        let descriptionView: MealDescriptionView = .init(meal: meal)
         addSubview(descriptionView)
 
         NSLayoutConstraint.activate([

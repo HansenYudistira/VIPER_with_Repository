@@ -1,7 +1,7 @@
 import UIKit
 
 internal class MealDescriptionView: UIStackView {
-    let meal: MealModel
+    private let meal: MealModel
     init(meal: MealModel, frame: CGRect = .zero) {
         self.meal = meal
         super.init(frame: frame)

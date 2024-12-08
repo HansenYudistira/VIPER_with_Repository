@@ -26,7 +26,7 @@ internal class MealListViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func viewDidLoad() {
+    override internal func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemGray6
         configureNavigationBar()
@@ -104,7 +104,7 @@ extension MealListViewController: MealListViewProtocol {
 }
 
 extension MealListViewController: UISearchBarDelegate {
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+    internal func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         resetFilters()
         presenter.fetchSearchText(searchBar.text ?? "")
     }
@@ -122,7 +122,7 @@ extension MealListViewController: UISearchBarDelegate {
 }
 
 extension MealListViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    internal func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == mealListView.mealCollection {
             presenter.navigateToDetail(with: displayedMeals[indexPath.row])
         }
@@ -131,7 +131,10 @@ extension MealListViewController: UICollectionViewDelegate {
 }
 
 extension MealListViewController: UICollectionViewDataSource {
-    internal func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    internal func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int
+    ) -> Int {
         if collectionView == mealListView.mealCollection {
             return displayedMeals.count
         } else if collectionView == mealListView.filterCollection {
@@ -171,7 +174,7 @@ extension MealListViewController: UICollectionViewDataSource {
 }
 
 extension MealListViewController: ButtonTappedDelegate {
-    func toggle(_ sender: UIButton) {
+    internal func toggle(_ sender: UIButton) {
         guard
             let area = sender.accessibilityLabel
         else {
