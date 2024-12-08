@@ -25,7 +25,10 @@ internal class MealListInteractor {
 }
 
 extension MealListInteractor: MealListInteractorProtocol {
-    internal func performSearch(searchKey: String, completion: @escaping (Result<MealListModel, NetworkError>) -> Void) {
+    internal func performSearch(
+        searchKey: String,
+        completion: @escaping (Result<MealListModel, NetworkError>) -> Void
+    ) {
         if let cachedMealList = cachedMealList, cachedMealList.searchKey == searchKey {
             completion(.success(cachedMealList))
             return
