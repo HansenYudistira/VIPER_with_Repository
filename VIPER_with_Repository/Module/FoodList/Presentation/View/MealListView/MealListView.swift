@@ -60,14 +60,8 @@ internal class MealListView: UIStackView {
     private func configureMealLayout(columns: Int, spacing: CGFloat = 8.0) {
         if let flowLayout = mealCollection.collectionViewLayout as? UICollectionViewFlowLayout {
             mealCollection.layoutIfNeeded()
-            print("mealCollection.bounds.width: \(mealCollection.bounds.width)")
             let totalSpacing = spacing * CGFloat(columns - 1)
             let availableWidth = mealCollection.bounds.width - totalSpacing - 16
-            guard availableWidth > 0 else {
-                print("Invalid availableWidth: \(availableWidth)")
-                return
-            }
-            print("availableWidth: \(availableWidth)")
             let itemWidth = availableWidth / CGFloat(columns)
             flowLayout.itemSize = CGSize(width: itemWidth, height: itemWidth * 1.25)
             flowLayout.minimumInteritemSpacing = spacing

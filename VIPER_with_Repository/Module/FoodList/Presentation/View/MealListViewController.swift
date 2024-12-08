@@ -12,10 +12,8 @@ internal class MealListViewController: UIViewController {
 
     private let loadingView: LoadingView
     private let mealListView: MealListView
-    private var meals: [MealViewModel] = []
     private var displayedMeals: [MealViewModel] = []
     private var uniqueArea: [String] = []
-    private var activeFilters: Set<String> = []
 
     init(presenter: MealListPresenterProtocol) {
         mealListView = MealListView()
@@ -77,12 +75,8 @@ internal class MealListViewController: UIViewController {
 
 extension MealListViewController: MealListViewProtocol {
     internal func showmeals(meals: [MealViewModel], uniqueArea: [String]) {
-        self.meals = meals
         self.uniqueArea = uniqueArea
         resetFilters()
-        DispatchQueue.main.async {
-            self.mealListView.filterCollection.reloadData()
-        }
     }
 
     internal func showError(_ error: String) {
@@ -113,7 +107,6 @@ extension MealListViewController: UISearchBarDelegate {
     }
 
     private func resetFilters() {
-        activeFilters.removeAll()
         DispatchQueue.main.async {
             self.mealListView.filterCollection.visibleCells.forEach { cell in
                 if let filterCell = cell as? FilterCollectionViewCell {
@@ -129,6 +122,8 @@ extension MealListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == mealListView.mealCollection {
             print("selected meal list at row \(indexPath.row)")
+        } else if collectionView == mealListView.filterCollection {
+            print("selected filter at row \(indexPath.row)")
         }
         return
     }
@@ -177,24 +172,16 @@ extension MealListViewController: UICollectionViewDataSource {
 extension MealListViewController: ButtonTappedDelegate {
     func toggle(_ sender: UIButton) {
         guard
-            let areaButton = sender as? AreaLabelButton,
             let area = sender.accessibilityLabel
         else {
             return
         }
-        if areaButton.buttonState == .off {
-            activeFilters.remove(area)
-        } else {
-            activeFilters.insert(area)
-        }
-
-        sender.isSelected.toggle()
-
+        presenter.toggleFilter(for: area)
         applyFilters()
     }
 
     private func applyFilters() {
-        displayedMeals = presenter.applyFilters(activeFilters: activeFilters, meals: meals)
+        displayedMeals = presenter.applyFilters()
 
         DispatchQueue.main.async {
             self.mealListView.mealCollection.reloadData()
