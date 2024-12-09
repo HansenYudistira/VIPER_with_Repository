@@ -6,7 +6,7 @@ internal struct MealModel {
     internal let strMealThumb: String
     internal let strYoutube: String
     internal let strIngredients: [String]
-    internal let strMeasure: [String]
+    internal let strMeasures: [String]
 }
 
 extension MealModel {

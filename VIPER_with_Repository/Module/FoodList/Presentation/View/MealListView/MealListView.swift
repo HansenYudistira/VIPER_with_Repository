@@ -34,6 +34,7 @@ internal class MealListView: UIStackView {
         axis = .vertical
         spacing = 8
         filterCollection.backgroundColor = .clear
+        filterCollection.removeScrollIndicator()
         mealCollection.backgroundColor = .clear
         addArrangedSubview(searchBar)
         addArrangedSubview(filterCollection)

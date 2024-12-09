@@ -25,6 +25,11 @@ internal class MealDetailView: UIView {
         }
         addSubview(imageView)
 
+        let areaLabel = AreaLabelButton()
+        areaLabel.configure(text: meal.strArea)
+        areaLabel.isUserInteractionEnabled = false
+        addSubview(areaLabel)
+
         let descriptionView: MealDescriptionView = .init(meal: meal)
         addSubview(descriptionView)
 
@@ -33,8 +38,11 @@ internal class MealDetailView: UIView {
             imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: trailingAnchor),
             imageView.topAnchor.constraint(equalTo: topAnchor),
-            descriptionView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8),
-            descriptionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8)
+            areaLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8),
+            areaLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
+            descriptionView.topAnchor.constraint(equalTo: areaLabel.bottomAnchor, constant: 8),
+            descriptionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
+            descriptionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8)
         ])
     }
 }

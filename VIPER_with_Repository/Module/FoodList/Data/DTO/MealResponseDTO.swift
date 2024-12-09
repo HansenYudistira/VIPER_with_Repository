@@ -6,7 +6,7 @@ internal struct MealResponseDTO: Decodable {
     internal let strMealThumb: String?
     internal let strYoutube: String?
     internal let strIngredients: [String]?
-    internal let strMeasure: [String]?
+    internal let strMeasures: [String]?
 
     enum CodingKeys: String, CodingKey {
         case idMeal, strMeal, strArea, strInstructions, strMealThumb, strYoutube
@@ -25,13 +25,15 @@ internal struct MealResponseDTO: Decodable {
 
         strIngredients = (1...20).compactMap { index in
             let key = DynamicCodingKeys(stringValue: "strIngredient\(index)")
-            return key.flatMap { try? dynamicContainer.decodeIfPresent(String.self, forKey: $0) }
+            return key.flatMap { try? dynamicContainer.decodeIfPresent(String.self, forKey: $0) }?
+                .trimmingCharacters(in: .whitespacesAndNewlines)
         }
         .filter { !$0.isEmpty }
 
-        strMeasure = (1...20).compactMap { index in
-            let key = DynamicCodingKeys(stringValue: "strIngredient\(index)")
-            return key.flatMap { try? dynamicContainer.decodeIfPresent(String.self, forKey: $0) }
+        strMeasures = (1...20).compactMap { index in
+            let key = DynamicCodingKeys(stringValue: "strMeasure\(index)")
+            return key.flatMap { try? dynamicContainer.decodeIfPresent(String.self, forKey: $0) }?
+                .trimmingCharacters(in: .whitespacesAndNewlines)
         }
         .filter { !$0.isEmpty }
     }
@@ -47,7 +49,7 @@ internal extension MealResponseDTO {
             strMealThumb: strMealThumb ?? "",
             strYoutube: strYoutube ?? "",
             strIngredients: strIngredients ?? [],
-            strMeasure: strMeasure ?? []
+            strMeasures: strMeasures ?? []
         )
     }
 }

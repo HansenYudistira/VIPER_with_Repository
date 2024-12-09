@@ -17,14 +17,15 @@ internal class MealDescriptionView: UIStackView {
         spacing = 8
         translatesAutoresizingMaskIntoConstraints = false
 
-        let areaLabel = AreaLabelButton()
-        areaLabel.configure(text: meal.strArea)
-        areaLabel.isUserInteractionEnabled = false
-        addArrangedSubview(areaLabel)
-
         let ingredients: String
-        if meal.strIngredients.count == meal.strMeasure.count {
-            ingredients = zip(meal.strMeasure, meal.strIngredients)
+        for measure in meal.strMeasures {
+            print("\(measure)")
+        }
+        for ingredient in meal.strIngredients {
+            print("\(ingredient)")
+        }
+        if meal.strIngredients.count == meal.strMeasures.count {
+            ingredients = zip(meal.strMeasures, meal.strIngredients)
                 .compactMap { measure, ingredient in
                     guard !measure.isEmpty, !ingredient.isEmpty else { return nil }
                     return "\(measure) of \(ingredient)"

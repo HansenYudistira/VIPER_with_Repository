@@ -76,7 +76,7 @@ internal struct MockData {
                 strMealThumb: "https://via.placeholder.com/150",
                 strYoutube: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
                 strIngredients: ["Spaghetti", "Eggs", "Cheese", "Pancetta", "Pepper"],
-                strMeasure: ["200g", "2", "50g", "100g", "1 tsp"]
+                strMeasures: ["200g", "2", "50g", "100g", "1 tsp"]
             ),
             MealModel(
                 idMeal: "2",
@@ -86,7 +86,7 @@ internal struct MockData {
                 strMealThumb: "https://via.placeholder.com/150",
                 strYoutube: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
                 strIngredients: ["Chicken", "Coconut Milk", "Onion", "Tomato", "Spices"],
-                strMeasure: ["500g", "1 cup", "1", "2", "to taste"]
+                strMeasures: ["500g", "1 cup", "1", "2", "to taste"]
             ),
             MealModel(
                 idMeal: "3",
@@ -96,7 +96,7 @@ internal struct MockData {
                 strMealThumb: "https://via.placeholder.com/150",
                 strYoutube: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
                 strIngredients: ["Rice", "Nori", "Fish", "Soy Sauce", "Wasabi"],
-                strMeasure: ["200g", "5 sheets", "100g", "to taste", "to taste"]
+                strMeasures: ["200g", "5 sheets", "100g", "to taste", "to taste"]
             )
         ]
         return MealListModel(meals: mockMeals, searchKey: "Mock")
