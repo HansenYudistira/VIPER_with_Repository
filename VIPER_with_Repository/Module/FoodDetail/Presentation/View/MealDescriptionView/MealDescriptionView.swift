@@ -18,12 +18,6 @@ internal class MealDescriptionView: UIStackView {
         translatesAutoresizingMaskIntoConstraints = false
 
         let ingredients: String
-        for measure in meal.strMeasures {
-            print("\(measure)")
-        }
-        for ingredient in meal.strIngredients {
-            print("\(ingredient)")
-        }
         if meal.strIngredients.count == meal.strMeasures.count {
             ingredients = zip(meal.strMeasures, meal.strIngredients)
                 .compactMap { measure, ingredient in
