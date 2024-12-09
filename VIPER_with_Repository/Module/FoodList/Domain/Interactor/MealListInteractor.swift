@@ -34,34 +34,34 @@ extension MealListInteractor: MealListInteractorProtocol {
             return
         }
 
-        self.cachedMealList = MockData.createMockMealListModel()
-        guard
-            let cachedMealList = self.cachedMealList
-        else {
-            completion(.failure(.invalidResponse))
-            return
-        }
-        completion(.success(cachedMealList))
-
-//        let url: String = apiService.baseURL + "search.php?s=\(searchKey)"
-//        repository.fetchMeals(url: url) { [weak self] result in
-//            switch result {
-//            case .success(let mealsDTO):
-//                let meals = mealsDTO.map {
-//                    $0.toDomain()
-//                }
-//                self?.cachedMealList = MealListModel(meals: meals, searchKey: searchKey)
-//                guard
-//                    let cachedMealList = self?.cachedMealList
-//                else {
-//                    completion(.failure(.invalidResponse))
-//                    return
-//                }
-//                completion(.success(cachedMealList))
-//            case.failure:
-//                completion(.failure(.unknownError))
-//            }
+//        self.cachedMealList = MockData.createMockMealListModel()
+//        guard
+//            let cachedMealList = self.cachedMealList
+//        else {
+//            completion(.failure(.invalidResponse))
+//            return
 //        }
+//        completion(.success(cachedMealList))
+
+        let url: String = apiService.baseURL + "search.php?s=\(searchKey)"
+        repository.fetchMeals(url: url) { [weak self] result in
+            switch result {
+            case .success(let mealsDTO):
+                let meals = mealsDTO.map {
+                    $0.toDomain()
+                }
+                self?.cachedMealList = MealListModel(meals: meals, searchKey: searchKey)
+                guard
+                    let cachedMealList = self?.cachedMealList
+                else {
+                    completion(.failure(.invalidResponse))
+                    return
+                }
+                completion(.success(cachedMealList))
+            case.failure:
+                completion(.failure(.unknownError))
+            }
+        }
     }
 }
 

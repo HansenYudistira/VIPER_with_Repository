@@ -19,7 +19,33 @@ internal class MealDescriptionView: UIStackView {
 
         let areaLabel = AreaLabelButton()
         areaLabel.configure(text: meal.strArea)
+        areaLabel.isUserInteractionEnabled = false
         addArrangedSubview(areaLabel)
+
+        let ingredients: String
+        if meal.strIngredients.count == meal.strMeasure.count {
+            ingredients = zip(meal.strMeasure, meal.strIngredients)
+                .compactMap { measure, ingredient in
+                    guard !measure.isEmpty, !ingredient.isEmpty else { return nil }
+                    return "\(measure) of \(ingredient)"
+                }
+                .joined(separator: "\n")
+        } else {
+            ingredients = LocalizedKey.invalidDataMismatch.localized
+        }
+        let ingredientsLabel = DescriptionLabelView(
+            numberOfLines: 3,
+            title: LocalizedKey.instructions.localized,
+            description: ingredients
+        )
+        addArrangedSubview(ingredientsLabel)
+
+        let instructionsLabel = DescriptionLabelView(
+            numberOfLines: 7,
+            title: LocalizedKey.instructions.localized,
+            description: meal.strInstructions
+        )
+        addArrangedSubview(instructionsLabel)
 
         if !meal.strYoutube.isEmpty {
             let linkButton = UIButton(type: .system)

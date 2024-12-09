@@ -8,6 +8,8 @@ enum LocalizedKey: String {
     case ok
     case back
     case loading
+    case instructions
+    case invalidDataMismatch
 
     var localized: String {
         let key: String = String(describing: self)
@@ -30,6 +32,10 @@ enum LocalizedKey: String {
             return "Back."
         case .loading:
             return "Loading please wait."
+        case .instructions:
+            return "This is the instructions"
+        case .invalidDataMismatch:
+            return "Invalid Data, there is mismatch between the data"
         }
     }
 }
