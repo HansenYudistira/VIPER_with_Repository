@@ -10,7 +10,7 @@ protocol MealListViewProtocol: AnyObject {
 internal class MealListViewController: UIViewController {
     internal let presenter: MealListPresenterProtocol
 
-    private let loadingView: LoadingView
+    private lazy var loadingView: LoadingView = LoadingView()
     private let mealListView: MealListView
     private var displayedMeals: [MealViewModel] = []
     private var uniqueArea: [String] = []
@@ -18,7 +18,7 @@ internal class MealListViewController: UIViewController {
     init(presenter: MealListPresenterProtocol) {
         mealListView = MealListView()
         self.presenter = presenter
-        self.loadingView = LoadingView()
+//        self.loadingView = LoadingView()
         super.init(nibName: nil, bundle: nil)
     }
 

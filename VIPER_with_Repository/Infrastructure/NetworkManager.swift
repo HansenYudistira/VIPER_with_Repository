@@ -34,19 +34,19 @@ extension NetworkManager: APIClient {
         }
 
         urlSession.dataTask(with: url) { [weak self] data, response, error in
-            if let error = error {
+            if let error {
                 completion(.failure(error))
                 return
             }
 
-            guard let response = response else {
+            guard let response else {
                 completion(.failure(NetworkError.noResponse))
                 return
             }
 
             do {
                 try self?.responseValidator.validate(response)
-                guard let data = data else {
+                guard let data else {
                     completion(.failure(NetworkError.noData))
                     return
                 }
