@@ -11,14 +11,12 @@ internal class MealListViewController: UIViewController {
     internal let presenter: MealListPresenterProtocol
 
     private lazy var loadingView: LoadingView = LoadingView()
-    private let mealListView: MealListView
-    private var displayedMeals: [MealViewModel] = []
-    private var uniqueArea: [String] = []
+    private lazy var mealListView: MealListView = MealListView()
+    private lazy var displayedMeals: [MealViewModel] = []
+    private lazy var uniqueArea: [String] = []
 
     init(presenter: MealListPresenterProtocol) {
-        mealListView = MealListView()
         self.presenter = presenter
-//        self.loadingView = LoadingView()
         super.init(nibName: nil, bundle: nil)
     }
 
