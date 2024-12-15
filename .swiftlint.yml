@@ -3,15 +3,23 @@ disabled_rules:
   - nesting
   - function_parameter_count
   - static_over_final_class
+  - private_over_fileprivate
 opt_in_rules:
   - control_statement
   - empty_count
   - trailing_newline
   - colon
   - comma
-  
+
+included:
+  - VIPER_with_Repository/
+  - VIPER_with_RepositoryTests/
 excluded:
   - VIPER_with_RepositoryUITests/
+  - Pods/
+  - Products/
+  - Frameworks/
+  - Carthage/
 
 force_cast: warning
 

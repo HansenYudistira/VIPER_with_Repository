@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		A740998C2D05A2A200DE57BF /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = A740998B2D05A2A200DE57BF /* Kingfisher */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		A70CC6502D00AEB30003D0F1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -38,15 +42,6 @@
 			);
 			target = A70CC6382D00AEB20003D0F1 /* VIPER_with_Repository */;
 		};
-		A7BC664B2D034F34001D5D86 /* Exceptions for "VIPER_with_Repository" folder in "VIPER_with_RepositoryTests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Infrastructure/NetworkError.swift,
-				Infrastructure/NetworkManager.swift,
-				Infrastructure/ResponseValidator.swift,
-			);
-			target = A70CC64E2D00AEB30003D0F1 /* VIPER_with_RepositoryTests */;
-		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -54,7 +49,6 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				A70CC6612D00AEB30003D0F1 /* Exceptions for "VIPER_with_Repository" folder in "VIPER_with_Repository" target */,
-				A7BC664B2D034F34001D5D86 /* Exceptions for "VIPER_with_Repository" folder in "VIPER_with_RepositoryTests" target */,
 			);
 			path = VIPER_with_Repository;
 			sourceTree = "<group>";
@@ -76,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A740998C2D05A2A200DE57BF /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -103,6 +98,7 @@
 				A70CC63B2D00AEB20003D0F1 /* VIPER_with_Repository */,
 				A70CC6522D00AEB30003D0F1 /* VIPER_with_RepositoryTests */,
 				A70CC65C2D00AEB30003D0F1 /* VIPER_with_RepositoryUITests */,
+				A740998A2D05A2A200DE57BF /* Frameworks */,
 				A70CC63A2D00AEB20003D0F1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -117,6 +113,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		A740998A2D05A2A200DE57BF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -124,10 +127,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A70CC6622D00AEB30003D0F1 /* Build configuration list for PBXNativeTarget "VIPER_with_Repository" */;
 			buildPhases = (
+				A70CC66D2D020AB90003D0F1 /* SwiftLint */,
 				A70CC6352D00AEB20003D0F1 /* Sources */,
 				A70CC6362D00AEB20003D0F1 /* Frameworks */,
 				A70CC6372D00AEB20003D0F1 /* Resources */,
-				A70CC66D2D020AB90003D0F1 /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -137,8 +140,6 @@
 				A70CC63B2D00AEB20003D0F1 /* VIPER_with_Repository */,
 			);
 			name = VIPER_with_Repository;
-			packageProductDependencies = (
-			);
 			productName = VIPER_with_Repository;
 			productReference = A70CC6392D00AEB20003D0F1 /* VIPER_with_Repository.app */;
 			productType = "com.apple.product-type.application";
@@ -160,8 +161,6 @@
 				A70CC6522D00AEB30003D0F1 /* VIPER_with_RepositoryTests */,
 			);
 			name = VIPER_with_RepositoryTests;
-			packageProductDependencies = (
-			);
 			productName = VIPER_with_RepositoryTests;
 			productReference = A70CC64F2D00AEB30003D0F1 /* VIPER_with_RepositoryTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -183,8 +182,6 @@
 				A70CC65C2D00AEB30003D0F1 /* VIPER_with_RepositoryUITests */,
 			);
 			name = VIPER_with_RepositoryUITests;
-			packageProductDependencies = (
-			);
 			productName = VIPER_with_RepositoryUITests;
 			productReference = A70CC6592D00AEB30003D0F1 /* VIPER_with_RepositoryUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -218,9 +215,13 @@
 			knownRegions = (
 				en,
 				Base,
+				id,
 			);
 			mainGroup = A70CC6302D00AEB20003D0F1;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				A77CD0162D05A01D000A3D44 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A70CC63A2D00AEB20003D0F1 /* Products */;
 			projectDirPath = "";
@@ -434,6 +435,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -490,6 +492,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -606,6 +609,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A77CD0162D05A01D000A3D44 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.1.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A740998B2D05A2A200DE57BF /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A77CD0162D05A01D000A3D44 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A70CC6312D00AEB20003D0F1 /* Project object */;
 }
